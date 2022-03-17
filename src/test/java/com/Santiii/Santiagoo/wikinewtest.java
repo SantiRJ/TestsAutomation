@@ -1,24 +1,55 @@
 package com.Santiii.Santiagoo;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium. WebDriver;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import pageObjects.WikiHomePage;
+import pageObjects.WikiresultsPage;
+import pageObjects.BaseTest;
+import org.testng.annotations. AfterMethod; 
+import org.testng.annotations. BeforeMethod;
 
-public class wikinewtest {
-	@Test(description = "Validar busqueda")
-	public void ValidarBusquedaWikipedia() throws Exception {
-	    System.setProperty("webdriver.chrome.driver", "C:/driver/chromedriver.exe");
-	    WebDriver driver = new ChromeDriver();
-	    driver.get("http://wikipedia.org");
-	    WebElement searchInput = driver.findElement(By.id("searchInput"));
-	    Assert.assertTrue(searchInput.isDisplayed());
-	    searchInput.sendKeys("Selenium");
-	    searchInput.submit();
-	    WebElement tituloResultado = driver.findElement(By.id("firstHeading"));
-	    System.out.println("Texto encontrado "+ tituloResultado.getText());
-	    Assert.assertTrue(tituloResultado.isDisplayed());
-	    driver.close();
-}
+
+
+
+
+public class wikinewtest extends BaseTest{
+	
+	WebDriver driver=null;
+	
+	@BeforeMethod
+	public void InicioTest() {
+	 driver = BaseTest.iniciarDriver("CHROME"); 
+	BaseTest.goToMainPage (driver);
+	
+    }
+
+
+	
+
+	@Test (description = "Validar que las busquedas en Wikipedia funcionan")
+
+
+public void ValidarBusquedaWikipedia () throws Exception {
+
+	WebDriver driver = BaseTest.iniciarDriver("CHROME"); 
+	BaseTest.goToMainPage (driver);
+	driver.manage().window().maximize();
+	WikiHomePage homePage = new WikiHomePage (driver);
+	
+	Assert.assertTrue (homePage. searchInputEsVisible(), "El input no esta visible"); 
+		WikiresultsPage resultspage = homePage.searchText("Selenium");
+	
+	Assert.assertTrue ( resultspage.tituloEsVisible(), "El titulo no esta visible"); 
+	driver.close();
+ 
+
+	}
+	
+	@AfterMethod 
+	public void Fintest() { 
+	driver.close();
+	}
+	
+	
+	
 }
