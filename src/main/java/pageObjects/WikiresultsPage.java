@@ -9,10 +9,10 @@ public class WikiresultsPage{
 
 	@FindBy(id="firstHeading") WebElement titulo;
 
-	private WebDriver Driver = null;
+	private WebDriver driver = null;
 
 	public WikiresultsPage (WebDriver driver) { 
-		this.Driver = driver; 
+		this.driver = driver; 
 		PageFactory.initElements (driver, this);
 	
 	}
